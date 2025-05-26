@@ -12,13 +12,13 @@ docker-up:
 	docker compose up -d
 
 docker-down:
-	docker compose stop
+	docker compose down --remove-orphans
 
 docker-down-clear:
 	docker compose down -v --remove-orphans
 
 docker-stop:
-	docker compose down --remove-orphans
+	docker compose stop
 
 docker-build:
 	docker compose build --pull
