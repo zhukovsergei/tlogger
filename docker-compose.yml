@@ -1,8 +1,8 @@
 services:
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./app/frontend
+      dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
     volumes:
@@ -12,6 +12,7 @@ services:
       - NODE_ENV=development
       - WATCHPACK_POLLING=true
       - CHOKIDAR_USEPOLLING=true
+      - NEXT_PUBLIC_API_URL=http://backend:8080
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000"]
@@ -27,6 +28,41 @@ services:
         reservations:
           cpus: '0.5'
           memory: 512M
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  backend:
+    build:
+      context: ./app/backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app/backend/src:/app/src
+      - ./app/backend/build.gradle:/app/build.gradle
+      - ./app/backend/settings.gradle:/app/settings.gradle
+      - backend-gradle-cache:/root/.gradle
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+volumes:
+  backend-gradle-cache:
 
 networks:
   default:
