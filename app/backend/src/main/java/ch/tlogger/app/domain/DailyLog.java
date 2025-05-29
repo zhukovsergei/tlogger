@@ -1,4 +1,4 @@
-package ch.tlogger.model;
+package ch.tlogger.app.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
-package ch.tlogger.repository;
+package ch.tlogger.app.repository;
 
-import ch.tlogger.model.DailyLog;
+import ch.tlogger.app.domain.DailyLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
