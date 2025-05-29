@@ -60,9 +60,31 @@ services:
         reservations:
           cpus: '0.5'
           memory: 512M
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=tlogger
+      - POSTGRES_USER=tlogger
+      - POSTGRES_PASSWORD=tlogger
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tlogger -d tlogger"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
 
 volumes:
   backend-gradle-cache:
+  postgres-data:
 
 networks:
   default:
