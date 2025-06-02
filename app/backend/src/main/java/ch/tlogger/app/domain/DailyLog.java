@@ -1,5 +1,8 @@
 package ch.tlogger.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +37,11 @@ public class DailyLog {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @JsonProperty("id")
+    public UUID getIdentifier() {
+        return this.id;
+    }
 
     @PrePersist
     protected void onCreate() {
