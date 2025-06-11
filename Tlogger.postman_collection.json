@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "275629e9-5fe3-4149-bc0c-824428d81fa1",
+		"name": "Tlogger",
+		"description": "Collection for tlogger",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16544381"
+	},
+	"item": [
+		{
+			"name": "All logs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/daily-logs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"daily-logs"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
