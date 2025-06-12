@@ -1,10 +1,10 @@
 import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
-import { Welcome } from '../components/Welcome/Welcome';
+import { DailyLogs } from '../components/DailyLogs';
 
 export default function HomePage() {
   return (
     <>
-      <Welcome />
+      <DailyLogs />
       <ColorSchemeToggle />
     </>
   );
