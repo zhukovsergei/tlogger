@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Card, Text, Title, Container, Loader, Alert, Stack, Badge } from '@mantine/core';
+import { Card, Text, Title, Container, Loader, Alert, Stack, Badge, Button } from '@mantine/core';
 import { IconCalendar, IconEdit } from '@tabler/icons-react';
 
 interface DailyLog {
@@ -55,7 +55,15 @@ export function DailyLogs() {
       }
       
       const data: DailyLogsResponse = await response.json();
-      setLogs(data._embedded?.dailyLogs || []);
+      const logsWithId = (data._embedded?.dailyLogs || []).map((log: any) => {
+        let id = log.id;
+        if (!id && log._links && log._links.self && log._links.self.href) {
+          const href = log._links.self.href;
+          id = href.substring(href.lastIndexOf('/') + 1);
+        }
+        return { ...log, id };
+      });
+      setLogs(logsWithId);
     } catch (err) {
       console.error('Error fetching daily logs:', err);
       setError(err instanceof Error ? err.message : 'Unknown error occurred');
@@ -77,6 +85,21 @@ export function DailyLogs() {
   const formatDateTime = (dateTimeString: string) => {
     const date = new Date(dateTimeString);
     return date.toLocaleString('en-US');
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+      const response = await fetch(`${apiUrl}/api/daily-logs/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      setLogs((prev) => prev.filter((log) => log.id !== id));
+    } catch (err) {
+      alert('Error');
+    }
   };
 
   if (loading) {
@@ -137,6 +160,9 @@ export function DailyLogs() {
               <Text size="md" style={{ whiteSpace: 'pre-wrap' }}>
                 {log.content}
               </Text>
+              <Button color="red" mt="md" size="xs" onClick={() => handleDelete(log.id)}>
+                Remove
+              </Button>
             </Card>
           ))}
         </Stack>
