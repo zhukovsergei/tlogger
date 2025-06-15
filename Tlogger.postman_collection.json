@@ -26,6 +26,35 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"logDate\": \"2025-06-15\",\r\n  \"content\": \"test log via postman\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/daily-logs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"daily-logs"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
