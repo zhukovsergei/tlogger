@@ -160,7 +160,7 @@ export function DailyLogs() {
               <Text size="md" style={{ whiteSpace: 'pre-wrap' }}>
                 {log.content}
               </Text>
-              <Button color="red" mt="md" size="xs" onClick={() => handleDelete(log.id)}>
+              <Button color="red" mt="md" size="compact" style={{ width: 'auto', alignSelf: 'flex-end' }} onClick={() => handleDelete(log.id)}>
                 Remove
               </Button>
             </Card>
