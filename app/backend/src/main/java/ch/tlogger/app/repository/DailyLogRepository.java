@@ -16,7 +16,7 @@ public interface DailyLogRepository extends JpaRepository<DailyLog, UUID> {
     
     List<DailyLog> findAllByOrderByLogDateDesc();
     
-    Optional<DailyLog> findByLogDate(LocalDate logDate);
-    
+    List<DailyLog> findByLogDate(LocalDate logDate);
+
     List<DailyLog> findByLogDateBetweenOrderByLogDateDesc(LocalDate startDate, LocalDate endDate);
 } 
