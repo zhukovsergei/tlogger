@@ -38,11 +38,6 @@ public class DailyLog {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @JsonProperty("id")
-    public UUID getIdentifier() {
-        return this.id;
-    }
-
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

@@ -16,5 +16,6 @@ public class RestDataConfig implements RepositoryRestConfigurer {
             .allowedHeaders("*")
             .allowCredentials(false)
             .maxAge(3600);
+        config.exposeIdsFor(ch.tlogger.app.domain.DailyLog.class);
     }
 } 
