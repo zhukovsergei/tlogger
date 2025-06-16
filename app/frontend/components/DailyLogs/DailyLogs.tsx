@@ -38,32 +38,21 @@ export function DailyLogs() {
     try {
       setLoading(true);
       setError(null);
-      
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
-      console.log('Fetching from API URL:', `${apiUrl}/api/daily-logs?sort=logDate,desc`);
-      
-      const response = await fetch(`${apiUrl}/api/daily-logs?sort=logDate,desc`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-      });
-      
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const todayStr = `${yyyy}-${mm}-${dd}`;
+
+      const response = await fetch(`${apiUrl}/api/daily-logs/search/findByLogDate?logDate=${todayStr}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
       }
-      
       const data: DailyLogsResponse = await response.json();
-      const logsWithId = (data._embedded?.dailyLogs || []).map((log: any) => {
-        let id = log.id;
-        if (!id && log._links && log._links.self && log._links.self.href) {
-          const href = log._links.self.href;
-          id = href.substring(href.lastIndexOf('/') + 1);
-        }
-        return { ...log, id };
-      });
-      setLogs(logsWithId);
+      const logs = data._embedded?.dailyLogs || [];
+      setLogs(logs);
     } catch (err) {
       console.error('Error fetching daily logs:', err);
       setError(err instanceof Error ? err.message : 'Unknown error occurred');
@@ -89,7 +78,7 @@ export function DailyLogs() {
 
   const handleDelete = async (id: string) => {
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
       const response = await fetch(`${apiUrl}/api/daily-logs/${id}`, {
         method: 'DELETE',
       });
@@ -119,7 +108,7 @@ export function DailyLogs() {
           {error}
           <br />
           <Text size="sm" mt="xs">
-            Make sure the backend API is running on {process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}
+            Load error
           </Text>
         </Alert>
       </Container>
