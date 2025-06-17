@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Card, Text, Title, Container, Loader, Alert, Stack, Badge, Button } from '@mantine/core';
 import { IconCalendar, IconEdit } from '@tabler/icons-react';
+import { DateUtils } from '@/utils/date';
 
 interface DailyLog {
   id: string;
@@ -59,21 +60,6 @@ export function DailyLogs() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-  const formatDateTime = (dateTimeString: string) => {
-    const date = new Date(dateTimeString);
-    return date.toLocaleString('en-US');
   };
 
   const handleDelete = async (id: string) => {
@@ -133,17 +119,17 @@ export function DailyLogs() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <IconCalendar size={18} />
                   <Text fw={500} size="lg">
-                    {formatDate(log.logDate)}
+                    {DateUtils.formatDate(log.logDate)}
                   </Text>
                 </div>
                 <Badge variant="light" color="gray" size="sm">
-                  {formatDateTime(log.updatedAt)}
+                  {DateUtils.formatDateTime(log.updatedAt)}
                 </Badge>
               </div>
               
               <Text size="sm" c="dimmed" mb="sm">
                 <IconEdit size={14} style={{ marginRight: '4px' }} />
-                Created: {formatDateTime(log.createdAt)}
+                Created: {DateUtils.formatDateTime(log.createdAt)}
               </Text>
               
               <Text size="md" style={{ whiteSpace: 'pre-wrap' }}>
