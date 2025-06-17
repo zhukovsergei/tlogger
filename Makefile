@@ -6,7 +6,14 @@ build: docker-build
 rest: down up
 restv: downv up
 restb: down build up
-bash: docker-bash
+bashf: frontend-bash
+bashb: backend-bash
+
+frontend-bash:
+	docker compose exec -it frontend bash
+
+backend-bash:
+	docker compose exec -it backend bash
 
 docker-up:
 	docker compose up -d
