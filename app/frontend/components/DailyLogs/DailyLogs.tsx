@@ -5,6 +5,10 @@ import { Card, Text, Title, Container, Loader, Alert, Stack, Badge, Button } fro
 import { IconCalendar, IconEdit } from '@tabler/icons-react';
 import { DateUtils } from '@/utils/date';
 
+interface DailyLogsProps {
+  date?: string;
+}
+
 interface DailyLog {
   id: string;
   logDate: string;
@@ -26,14 +30,14 @@ interface DailyLogsResponse {
   };
 }
 
-export function DailyLogs() {
+export function DailyLogs({ date }: DailyLogsProps) {
   const [logs, setLogs] = useState<DailyLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchLogs();
-  }, []);
+  }, [date]);
 
   const fetchLogs = async () => {
     try {
@@ -41,13 +45,15 @@ export function DailyLogs() {
       setError(null);
       const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-      const today = new Date();
-      const yyyy = today.getFullYear();
-      const mm = String(today.getMonth() + 1).padStart(2, '0');
-      const dd = String(today.getDate()).padStart(2, '0');
-      const todayStr = `${yyyy}-${mm}-${dd}`;
-
-      const response = await fetch(`${apiUrl}/api/daily-logs/search/findByLogDate?logDate=${todayStr}`);
+      let logDate = date;
+      if (!logDate) {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        logDate = `${yyyy}-${mm}-${dd}`;
+      }
+      const response = await fetch(`${apiUrl}/api/daily-logs/search/findByLogDate?logDate=${logDate}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
       }
