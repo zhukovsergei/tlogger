@@ -4,6 +4,7 @@ import '@mantine/dates/styles.css';
 import React from 'react';
 import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
 import { theme } from '@/theme';
+import { CalendarDrawer } from '@/components/CalendarDrawer';
 
 export const metadata = {
   title: 'Mantine Next.js template',
@@ -22,7 +23,14 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+
+        <MantineProvider theme={theme}>
+
+          <CalendarDrawer />
+
+          {children}
+
+        </MantineProvider>
       </body>
     </html>
   );
