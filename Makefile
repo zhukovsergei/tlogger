@@ -8,6 +8,7 @@ restv: downv up
 restb: down build up
 bashf: frontend-bash
 bashb: backend-bash
+frinstall: frontend-deps-install
 
 frontend-bash:
 	docker compose exec -it frontend bash
@@ -29,3 +30,6 @@ docker-stop:
 
 docker-build:
 	docker compose build --pull
+
+frontend-deps-install:
+	docker compose run --rm frontend-node-cli yarn install
