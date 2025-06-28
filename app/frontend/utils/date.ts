@@ -1,4 +1,3 @@
-
 export class DateUtils {
   // 2024-06-16 to 16.06.2024
   static formatDate(dateString: string): string {
@@ -18,5 +17,14 @@ export class DateUtils {
     const hh = String(date.getHours()).padStart(2, '0');
     const min = String(date.getMinutes()).padStart(2, '0');
     return `${dd}.${mm}.${yyyy} ${hh}:${min}`;
+  }
+
+  // Returns current date in YYYY-MM-DD format
+  static getCurrentDate(): string {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
   }
 } 
