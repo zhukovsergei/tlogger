@@ -81,6 +81,14 @@ services:
       start_period: 10s
     restart: unless-stopped
 
+  frontend-node-cli:
+    build:
+      context: ./app/frontend
+      dockerfile: Dockerfile.dev
+    command: sh
+    volumes:
+      - ./app/frontend:/app
+
 volumes:
   backend-gradle-cache:
   postgres-data:
