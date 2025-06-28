@@ -22,7 +22,6 @@ import java.util.UUID;
 public class DailyLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false, columnDefinition = "uuid")
     private UUID id;
 
