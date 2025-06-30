@@ -82,9 +82,7 @@ services:
     restart: unless-stopped
 
   frontend-node-cli:
-    build:
-      context: ./app/frontend
-      dockerfile: Dockerfile.dev
+    image: node:20-alpine
     command: sh
     volumes:
       - ./app/frontend:/app
