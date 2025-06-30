@@ -8,6 +8,10 @@ restv: downv up
 restb: down build up
 bashf: frontend-bash
 bashb: backend-bash
+bf: build-front
+bb: build-back
+logsf: logs-front
+logsb: logs-back
 frinstall: frontend-deps-install
 
 frontend-bash:
@@ -33,3 +37,15 @@ docker-build:
 
 frontend-deps-install:
 	docker compose run --rm frontend-node-cli yarn install
+
+build-front:
+	docker compose build frontend
+
+build-back:
+	docker compose build backend
+
+logs-front:
+	docker compose logs frontend
+
+logs-back:
+	docker compose logs backend
