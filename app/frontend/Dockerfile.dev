@@ -6,6 +6,8 @@ COPY .yarnrc.yml ./
 COPY .yarn ./.yarn
 COPY package.json yarn.lock ./
 
+RUN corepack enable && corepack prepare yarn@4.9.1 --activate
+
 RUN yarn install
 
 RUN apk add --no-cache bash
