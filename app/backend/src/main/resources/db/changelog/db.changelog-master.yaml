@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
-      file: classpath:db/changelog/changes/001-create-daily-logs-table.yaml 
+      file: classpath:db/changelog/changes/001-create-daily-logs-table.yaml
+  - include:
+      file: classpath:db/changelog/changes/002-create-users-table.yaml
