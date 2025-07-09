@@ -2,34 +2,37 @@ import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 
 import React from 'react';
-import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
 import { theme } from '@/theme';
-import { CalendarDrawer } from '@/components/CalendarDrawer';
+import { MantineProvider, AppShell, AppShellHeader, AppShellMain, Container, Group, Anchor } from '@mantine/core';
+import Link from 'next/link';
 
 export const metadata = {
-  title: 'Mantine Next.js template',
-  description: 'I am using Mantine with Next.js!',
+  title: 'Tlogger',
+  description: 'Track your daily logs easily and securely.',
 };
 
-export default function RootLayout({ children }: { children: any }) {
+export default function RootLayout({ children }) {
   return (
-    <html lang="en" {...mantineHtmlProps}>
-      <head>
-        <ColorSchemeScript />
-        <link rel="shortcut icon" href="/favicon.svg" />
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
-        />
-      </head>
+    <html lang="en">
       <body>
-
         <MantineProvider theme={theme}>
-
-          <CalendarDrawer />
-
-          {children}
-
+          <AppShell header={{ height: 60 }} padding="md">
+            <AppShellHeader>
+              <Container size="lg" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: 60 }}>
+                <Anchor component={Link} href="/" size="lg" underline="never">
+                  Tlogger
+                </Anchor>
+                <Group>
+                  <Anchor component={Link} href="/login" size="md" underline="hover">
+                    Login
+                  </Anchor>
+                </Group>
+              </Container>
+            </AppShellHeader>
+            <AppShellMain>
+              {children}
+            </AppShellMain>
+          </AppShell>
         </MantineProvider>
       </body>
     </html>
