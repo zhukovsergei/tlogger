@@ -44,6 +44,10 @@ services:
       - backend-gradle-cache:/root/.gradle
     environment:
       - SPRING_PROFILES_ACTIVE=dev
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
@@ -70,9 +74,9 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=tlogger
-      - POSTGRES_USER=tlogger
-      - POSTGRES_PASSWORD=tlogger
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U tlogger -d tlogger"]
       interval: 10s

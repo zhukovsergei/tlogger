@@ -5,7 +5,8 @@ stop: docker-stop
 build: docker-build
 rest: down up
 restv: downv up
-restb: down build up
+restb: downv build-back up
+restf: downv build-front up
 bashf: frontend-bash
 bashb: backend-bash
 bf: build-front
@@ -15,37 +16,37 @@ logsb: logs-back
 frinstall: frontend-deps-install
 
 frontend-bash:
-	docker compose exec -it frontend bash
+	docker compose --env-file .env exec -it frontend bash
 
 backend-bash:
-	docker compose exec -it backend bash
+	docker compose --env-file .env exec -it backend bash
 
 docker-up:
-	docker compose up -d
+	docker compose --env-file .env up -d
 
 docker-down:
-	docker compose down --remove-orphans
+	docker compose --env-file .env down --remove-orphans
 
 docker-down-clear:
-	docker compose down -v --remove-orphans
+	docker compose --env-file .env down -v --remove-orphans
 
 docker-stop:
-	docker compose stop
+	docker compose --env-file .env stop
 
 docker-build:
-	docker compose build --pull
+	docker compose --env-file .env build --pull
 
 frontend-deps-install:
-	docker compose run --rm frontend-node-cli yarn install
+	docker compose --env-file .env run --rm frontend-node-cli yarn install
 
 build-front:
-	docker compose build frontend
+	docker compose --env-file .env build frontend
 
 build-back:
-	docker compose build backend
+	docker compose --env-file .env build backend
 
 logs-front:
-	docker compose logs frontend
+	docker compose --env-file .env logs frontend
 
 logs-back:
-	docker compose logs backend
+	docker compose --env-file .env logs backend
