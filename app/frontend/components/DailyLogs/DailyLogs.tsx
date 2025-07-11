@@ -53,7 +53,12 @@ export function DailyLogs({ date }: DailyLogsProps) {
       if (!logDate) {
         logDate = DateUtils.getCurrentDate();
       }
-      const response = await fetch(`${apiUrl}/api/daily-logs/search/findByLogDate?logDate=${logDate}`);
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
+      const response = await fetch(`${apiUrl}/api/daily-logs/search/findByLogDate?logDate=${logDate}`, {
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {},
+        // credentials: 'include',
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
       }
@@ -89,10 +94,13 @@ export function DailyLogs({ date }: DailyLogsProps) {
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+      console.log('TOKEN (handleAddLog):', token);
       const response = await fetch(`${apiUrl}/api/daily-logs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({
           id: newLog.id,
@@ -101,6 +109,7 @@ export function DailyLogs({ date }: DailyLogsProps) {
           createdAt: newLog.createdAt,
           updatedAt: newLog.updatedAt,
         }),
+        credentials: 'include',
       });
 
       if (!response.ok) {
@@ -120,8 +129,12 @@ export function DailyLogs({ date }: DailyLogsProps) {
   const handleDelete = async (id: string) => {
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+      console.log('TOKEN (handleDelete):', token);
       const response = await fetch(`${apiUrl}/api/daily-logs/${id}`, {
         method: 'DELETE',
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {},
+        credentials: 'include',
       });
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
