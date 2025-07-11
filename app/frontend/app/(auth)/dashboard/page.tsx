@@ -1,4 +1,6 @@
 'use client';
+import { DailyLogs } from '@/components/DailyLogs';
+
 export default function DashboardPage() {
-  return <div>Dashboard page</div>;
+  return <DailyLogs />;
 }
