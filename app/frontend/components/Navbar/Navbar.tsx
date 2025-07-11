@@ -30,9 +30,11 @@ export default function Navbar() {
           Tlogger
         </Anchor>
         <Group>
-          <Anchor component={Link} href="/dashboard" size="md" underline="hover">
-            Dashboard
-          </Anchor>
+          {isLoggedIn && (
+            <Anchor component={Link} href="/dashboard" size="md" underline="hover">
+              Dashboard
+            </Anchor>
+          )}
           {isLoggedIn ? (
             <Button variant="outline" size="sm" onClick={handleLogout}>
               Logout
