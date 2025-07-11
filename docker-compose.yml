@@ -87,6 +87,7 @@ services:
 
   frontend-node-cli:
     image: node:20-alpine
+    working_dir: /app
     command: sh
     volumes:
       - ./app/frontend:/app
