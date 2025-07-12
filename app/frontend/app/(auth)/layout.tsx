@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
+import { Loader, Center } from '@mantine/core';
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -19,12 +20,14 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   }, [router]);
 
   if (!isReady) {
-    // Можно вернуть лоадер, чтобы не было белого экрана
-    return null; 
+    return (
+      <Center style={{ height: '100vh' }}>
+        <Loader />
+      </Center>
+    );
   }
 
   if (!isAuth) {
-    // Редирект уже в процессе, ничего не рендерим
     return null;
   }
 
