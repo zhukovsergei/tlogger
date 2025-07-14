@@ -1,12 +1,15 @@
 'use client';
 import { useState } from 'react';
 import { TextInput, PasswordInput, Button, Paper, Title, Container, Alert } from '@mantine/core';
+import { useAuthStore } from '../../store/authStore';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const login = useAuthStore((state) => state.login);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,6 +25,7 @@ export default function LoginPage() {
       const data = await res.json();
       if (res.ok && data.token) {
         localStorage.setItem('token', data.token);
+        login();
         window.location.href = '/';
       } else {
         setError(data.error || 'Login failed');

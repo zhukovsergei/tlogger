@@ -2,24 +2,16 @@
 
 import { Group, Container, Anchor, Box, Button } from '@mantine/core';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuthStore } from '../../store/authStore';
 
 export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
-      console.log(token);
-      setIsLoggedIn(!!token);
-    }
-  }, []);
-
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
+    logout();
     router.push('/login');
   };
 
@@ -30,12 +22,12 @@ export default function Navbar() {
           Tlogger
         </Anchor>
         <Group>
-          {isLoggedIn && (
+          {isAuthenticated && (
             <Anchor component={Link} href="/dashboard" size="md" underline="hover">
               Dashboard
             </Anchor>
           )}
-          {isLoggedIn ? (
+          {isAuthenticated ? (
             <Button variant="outline" size="sm" onClick={handleLogout}>
               Logout
             </Button>

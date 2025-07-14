@@ -1,17 +1,21 @@
+'use client';
+
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useAuthStore } from '../store/authStore';
 import { theme } from '@/theme';
 import { MantineProvider, AppShell, AppShellHeader, AppShellMain } from '@mantine/core';
 import Navbar from '../components/Navbar/Navbar';
 
-export const metadata = {
-  title: 'Tlogger',
-  description: 'Track your daily logs easily and securely.',
-};
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const checkAuth = typeof window !== 'undefined' ? useAuthStore((state) => state.checkAuth) : undefined;
+
+  useEffect(() => {
+    if (checkAuth) checkAuth();
+  }, [checkAuth]);
+
   return (
     <html lang="en">
       <body>

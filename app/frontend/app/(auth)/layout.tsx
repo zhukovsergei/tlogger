@@ -1,23 +1,26 @@
 'use client';
-import { useEffect, useState } from 'react';
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
+
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
 import { Loader, Center } from '@mantine/core';
+import { useAuthStore } from '../../store/authStore';
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const checkAuth = useAuthStore((state) => state.checkAuth);
   const [isReady, setIsReady] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsAuth(true);
-    } else {
+    checkAuth();
+    setIsReady(true);
+    if (!localStorage.getItem('token')) {
       router.replace('/login');
     }
-    setIsReady(true);
-  }, [router]);
+  }, [router, checkAuth]);
 
   if (!isReady) {
     return (
@@ -27,7 +30,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
     );
   }
 
-  if (!isAuth) {
+  if (!isAuthenticated) {
     return null;
   }
 
